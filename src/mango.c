@@ -2063,7 +2063,7 @@ void mango_session_apply_restore_entry(Client *c,
 
 	/* Skip minimized restore for now to avoid introducing new focus changes. */
 	client_update_oldmonname_record(c, c->mon);
-	printstatus();
+	printstatus(IPC_WATCH_ARRANGGE);
 }
 
 void client_change_mon(Client *c, Monitor *m) {
