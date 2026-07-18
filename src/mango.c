@@ -100,6 +100,7 @@
 #endif
 #include "common/util.h"
 #include "draw/text-node.h"
+#include "session/xdg_session.h"
 
 /* macros */
 #define MANGO_MAX(A, B) ((A) > (B) ? (A) : (B))
@@ -2681,6 +2682,7 @@ void cleanup(void) {
 #endif
 
 	wl_display_destroy_clients(dpy);
+	mango_xdg_session_manager_finish();
 	if (child_pid > 0) {
 		kill(-child_pid, SIGTERM);
 		waitpid(child_pid, NULL, 0);
@@ -6420,6 +6422,7 @@ void setup(void) {
 	xdg_shell = wlr_xdg_shell_create(dpy, 6);
 	wl_signal_add(&xdg_shell->events.new_toplevel, &new_xdg_toplevel);
 	wl_signal_add(&xdg_shell->events.new_popup, &new_xdg_popup);
+	mango_xdg_session_manager_init(dpy);
 
 	session_lock_mgr = wlr_session_lock_manager_v1_create(dpy);
 	wl_signal_add(&session_lock_mgr->events.new_lock, &new_session_lock);

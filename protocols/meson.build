@@ -10,6 +10,10 @@ wayland_scanner_client = generator(
 	output: '@BASENAME@-protocol.h',
 	arguments: ['server-header', '@INPUT@', '@OUTPUT@'])
 
+fs = import('fs')
+xdg_session_management_xml =
+	wl_protocol_dir + '/staging/xdg-session-management/xdg-session-management-v1.xml'
+
 wayland_xmls = [
 	wl_protocol_dir + '/stable/xdg-shell/xdg-shell.xml',
 	wl_protocol_dir + '/unstable/pointer-constraints/pointer-constraints-unstable-v1.xml',
@@ -24,6 +28,10 @@ wayland_xmls = [
 	'wlr-layer-shell-unstable-v1.xml',
 	'wlr-output-power-management-unstable-v1.xml',
 ]
+if fs.exists(xdg_session_management_xml)
+	wayland_xmls += xdg_session_management_xml
+endif
+
 wayland_sources = [
 	wayland_scanner_code.process(wayland_xmls),
 	wayland_scanner_client.process(wayland_xmls),
